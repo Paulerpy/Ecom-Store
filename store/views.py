@@ -131,25 +131,26 @@ def stripe_config(request):
 
 @csrf_exempt
 def create_checkout_session(request):
-  domain_url = 'http://127.0.0.1:8000/'
-  stripe.api_key = settings.STRIPE_SECRET_KEY
+  if request.method == 'GET':
+    domain_url = 'http://127.0.0.1:8000/'
+    stripe.api_key = settings.STRIPE_SECRET_KEY
 
-  try:
-    checkout_session = stripe.checkout.Session.create(
-      success_url=domain_url + 'success?session_id={CHECKOUT_SESSION_ID}',
-      cancel_url=domain_url + 'cancelled/',
-      payment_method_types= ['card'],
-      mode='payment',
-      line_items= [
-        {
-          'quantity': 1,
-          'price': 'price_1OK5cYL4dnedMSOxl6surECP',
-        }
-      ]
-    )
-    return JsonResponse({'sessionId': checkout_session['id']})
-  except Exception as e: 
-    return JsonResponse({'error': str(e)})
+    try:
+      checkout_session = stripe.checkout.Session.create(
+        success_url=domain_url + 'success?session_id={CHECKOUT_SESSION_ID}',
+        cancel_url=domain_url + 'cancelled/',
+        payment_method_types= ['card'],
+        mode='payment',
+        line_items= [
+          {
+            'quantity': 1,
+            'price': 'price_1OK5cYL4dnedMSOxl6surECP',
+          }
+        ]
+      )
+      return JsonResponse({'sessionId': checkout_session['id']})
+    except Exception as e: 
+      return JsonResponse({'error': str(e)})
 
 
 @csrf_exempt
