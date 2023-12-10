@@ -132,7 +132,7 @@ def stripe_config(request):
 @csrf_exempt
 def create_checkout_session(request):
   if request.method == 'GET':
-    domain_url = 'http://127.0.0.1:8000/'
+    domain_url = 'http://127.0.0.1:8000/' 
     stripe.api_key = settings.STRIPE_SECRET_KEY
 
     try:
@@ -144,7 +144,7 @@ def create_checkout_session(request):
         line_items= [
           {
             'quantity': 1,
-            'price': 'price_1OK5cYL4dnedMSOxl6surECP',
+            'price': 'price_1OK5c YL4dnedMSOxl6surECP',
           }
         ]
       )
